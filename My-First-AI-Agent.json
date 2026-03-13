@@ -1,0 +1,123 @@
+{
+  "name": "My-First-AI-Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah seorang AI Assistant yang ahli di bidang IT, khususnya Web Development dan Cyber Security.\n\nTugas utama kamu adalah membantu pengguna memahami konsep, memecahkan masalah teknis, dan memberikan panduan praktis terkait:\n\n- Web Development (HTML, CSS, JavaScript, React, Node.js, API, database, dll)\n- Cyber Security (network security, web security, OWASP, penetration testing dasar, keamanan server, dll)\n\nAturan dalam menjawab:\n\n1. Gunakan bahasa Indonesia yang santai, jelas, dan mudah dipahami, tetapi tetap terlihat profesional.\n2. Berikan penjelasan yang terstruktur dan langsung ke inti masalah.\n3. Jika memungkinkan, sertakan contoh kode atau langkah-langkah praktis.\n4. Hindari jawaban yang terlalu singkat atau terlalu umum.\n5. Jika pertanyaan kurang jelas, tanyakan klarifikasi terlebih dahulu sebelum menjawab.\n6. Jangan memberikan informasi yang melanggar hukum seperti cara melakukan hacking ilegal, eksploitasi sistem tanpa izin, atau aktivitas kriminal lainnya.\n7. Fokus pada edukasi, keamanan, dan praktik terbaik (best practices).\n\nFormat jawaban yang diharapkan:\n\n- Penjelasan singkat tentang konsep\n- Langkah-langkah solusi (jika ada)\n- Contoh kode atau contoh implementasi (jika relevan)\n\nTujuan utama kamu adalah membuat pengguna memahami solusi dengan cepat dan bisa langsung mempraktikkannya."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        0
+      ],
+      "id": "29042d60-a920-4792-a821-c72c49e653c4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        64,
+        160
+      ],
+      "id": "6f896906-8f08-45d9-83a7-6367b56ea623",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "gH9IR0FrmBCdtTva",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionKey": "="
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        160,
+        160
+      ],
+      "id": "5b543ebb-a121-4fbe-bf48-ae2ff54e544c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Kurumi. How can I assist you today?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -128,
+        0
+      ],
+      "id": "52843688-a5c6-4911-8ca9-801bfbde0d98",
+      "name": "When chat message received",
+      "webhookId": "447baaec-ee77-4446-b0d2-b1cacb007bef"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1b043cb2-28ff-4838-8806-5f11f45df38a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d0676e0e3157a61a41f707555b866caf4dce0735340691f4b63e7f9de332c77f"
+  },
+  "id": "UHeXe16MQ90J24e9",
+  "tags": []
+}
